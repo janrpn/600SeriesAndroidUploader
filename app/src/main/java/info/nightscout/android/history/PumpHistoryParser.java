@@ -1,6 +1,6 @@
 package info.nightscout.android.history;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -710,7 +710,7 @@ public class PumpHistoryParser {
         PumpHistoryMarker.marker(
                 pumpHistorySender, historyRealm, pumpMAC,
                 eventDate, eventRTC, eventOFFSET,
-                PumpHistoryMarker.RECORDTYPE.EXERCISE,
+                PumpHistoryMarker.RECORDTYPE.INJECTION,
                 0,
                 (byte) 0,
                 0,

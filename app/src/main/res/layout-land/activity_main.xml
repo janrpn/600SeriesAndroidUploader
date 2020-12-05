@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_sgv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        >
+        android:layout_weight="6">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_sgv_start"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -37,11 +35,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_left"
-            >
-        </android.support.constraint.ConstraintLayout>
+            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_left">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_sgv_left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -51,8 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cl_sgv_start"
-            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_center"
-            >
+            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_center">
 
             <TextView
                 android:id="@+id/textview_bg"
@@ -72,8 +68,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textview_units"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <info.nightscout.android.utils.IconicsAppCompatTextView
                 android:id="@+id/textview_trend"
@@ -93,8 +88,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textview_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/textview_units"
-                />
+                app:layout_constraintBottom_toTopOf="@+id/textview_units" />
 
             <TextView
                 android:id="@+id/textview_units"
@@ -114,12 +108,11 @@
                 app:layout_constraintStart_toEndOf="@+id/textview_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_trend"
-                app:layout_constraintBottom_toBottomOf="@+id/textview_bg"
-                />
+                app:layout_constraintBottom_toBottomOf="@+id/textview_bg" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_sgv_center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -127,11 +120,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cl_sgv_left"
-            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_right"
-            >
-        </android.support.constraint.ConstraintLayout>
+            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_right">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_sgv_right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -141,8 +133,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cl_sgv_center"
-            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_end"
-            >
+            app:layout_constraintEnd_toStartOf="@+id/cl_sgv_end">
 
             <TextView
                 android:id="@+id/textview_bg_time"
@@ -163,8 +154,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textview_iob"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/textview_iob"
@@ -183,27 +173,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/textview_bg_time"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cl_sgv_end"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cl_sgv_right"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-    </android.support.constraint.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_sgv_end"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cl_sgv_right"
+            app:layout_constraintEnd_toEndOf="parent">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chart_section"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
@@ -218,9 +206,56 @@
             app:layout_constraintDimensionRatio="333:100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/log_section"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:saveEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                android:saveEnabled="false"
+                android:id="@+id/recyclerview_log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rrvLayoutType="LinearLayout"
+                app:rrvSwipeToDelete="false" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:saveEnabled="false"
+                android:id="@+id/fab_log_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="16dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:visibility="gone"
+                app:backgroundTint="#40000000"
+                app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:saveEnabled="false"
+                android:id="@+id/fab_log_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:src="@android:drawable/ic_menu_search"
+                android:visibility="gone"
+                app:backgroundTint="#40000000"
+                app:fabSize="mini" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

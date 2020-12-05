@@ -19,9 +19,9 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 
 import java.util.Date;
@@ -48,8 +48,8 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
-import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
+import static androidx.core.app.NotificationCompat.PRIORITY_MAX;
+import static androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC;
 import static info.nightscout.android.medtronic.service.MedtronicCnlService.POLL_GRACE_PERIOD_MS;
 import static info.nightscout.android.medtronic.service.MedtronicCnlService.POLL_PERIOD_MS;
 import static info.nightscout.android.medtronic.service.MedtronicCnlService.POLL_PRE_GRACE_PERIOD_MS;
@@ -713,10 +713,12 @@ public class MasterService extends Service {
 
     private void requestUsbPermission() {
         Log.d(TAG, "requestUsbPermission");
-        UsbManager usbManager = (UsbManager) this.getSystemService(Context.USB_SERVICE);
-        UsbDevice cnlDevice = UsbHidDriver.getUsbDevice(usbManager, MedtronicCnlService.USB_VID, MedtronicCnlService.USB_PID);
-        PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_USB_PERMISSION), 0);
-        usbManager.requestPermission(cnlDevice, permissionIntent);
+        if (checkUsbDevice()) {
+            UsbManager usbManager = (UsbManager) this.getSystemService(Context.USB_SERVICE);
+            UsbDevice cnlDevice = UsbHidDriver.getUsbDevice(usbManager, MedtronicCnlService.USB_VID, MedtronicCnlService.USB_PID);
+            PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_USB_PERMISSION), 0);
+            usbManager.requestPermission(cnlDevice, permissionIntent);
+        }
     }
 
     private boolean checkUsbDevice() {
@@ -811,7 +813,6 @@ public class MasterService extends Service {
         public static final String ACTION_CNL_COMMS_FINISHED = "info.nightscout.android.medtronic.CNL_COMMS_FINISHED";
         public static final String ACTION_CNL_COMMS_READY = "info.nightscout.android.medtronic.CNL_COMMS_READY";
         public static final String ACTION_CNL_READPUMP = "info.nightscout.android.medtronic.CNL_READPUMP";
-        public static final String ACTION_CNL_SHUTDOWN = "info.nightscout.android.medtronic.CNL_SHUTDOWN";
         public static final String ACTION_CNL_CHECKSTATE = "info.nightscout.android.medtronic.CNL_STATE";
         public static final String ACTION_STOP_SERVICE = "info.nightscout.android.medtronic.STOP_SERVICE";
         public static final String ACTION_READ_NOW = "info.nightscout.android.medtronic.READ_NOW";

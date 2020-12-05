@@ -18,12 +18,12 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -47,6 +47,7 @@ import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
     private UserLogDisplay userLogDisplay;
     private AppUpdater appUpdater;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        if (mPrefs.getBoolean(getString(R.string.key_dbgAnswers), getResources().getBoolean(R.bool.default_dbgAnswers))) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        }
 
         final boolean versionChanged = !mPrefs.getString("versionName", "n/a").equals(getString(R.string.versionName));
         final long now = System.currentTimeMillis();
@@ -231,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setElevation(0);
-            getSupportActionBar().setTitle("Nightscout");
+            getSupportActionBar().setTitle("600 Series Uploader");
         }
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
@@ -364,6 +370,15 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         updateChart(null, now);
 
+        mChart.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                Log.d(TAG, "onLayoutChange called");
+                refreshDisplayChart();
+            }
+        });
+
+        // allow user to change chart period by swiping left/right and zoom level with long click
         mChart.setOnTouchListener(new OnSwipeTouchListener(mContext)
         {
             @Override
@@ -400,14 +415,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         });
 
-        mChart.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                Log.d(TAG, "onLayoutChange called");
-                refreshDisplayChart();
-            }
-        });
-
+        // allow user to reset chart to current time period by tapping the sgv area
         findViewById(R.id.view_sgv).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -418,21 +426,48 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
             }
         });
 
+        // allow user to change chart visibility by tapping top toolbar
+        View tb = findViewById(R.id.toolbar);
+        tb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View log = findViewById(R.id.log_section);
+                View chart = findViewById(R.id.chart_section);
+                if (landscape) {
+                    if (log.getVisibility() == View.VISIBLE) {
+                        log.setVisibility(View.GONE);
+                        chart.setVisibility(View.VISIBLE);
+                    } else {
+                        log.setVisibility(View.VISIBLE);
+                        chart.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (chart.getVisibility() == View.VISIBLE) {
+                        log.setVisibility(View.VISIBLE);
+                        chart.setVisibility(View.GONE);
+                    } else {
+                        log.setVisibility(View.VISIBLE);
+                        chart.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+
         setScreenSleepMode();
 
-        if (!landscape)
-            userLogDisplay = new UserLogDisplay(mContext);
+        userLogDisplay = new UserLogDisplay(mContext);
     }
 
     private void setScreenSleepMode() {
-        if (mChart != null) {
+        View tb = findViewById(R.id.toolbar);
+        if (tb != null) {
             String sleep = mPrefs.getString("screenSleep", "1");
             if (sleep.equals("3")
                     || (sleep.equals("1") && landscape)
                     || (sleep.equals("2") && !landscape))
-                mChart.setKeepScreenOn(true);
+                tb.setKeepScreenOn(true);
             else
-                mChart.setKeepScreenOn(false);
+                tb.setKeepScreenOn(false);
         }
     }
 
@@ -1188,7 +1223,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         int chartWidth = mChart.getWidth();
         if (chartWidth > 0) {
             float xdpi = getResources().getDisplayMetrics().xdpi;
-            boolean change = chartWidth / xdpi > 3;
+            boolean change = chartWidth / xdpi > 3.2;
             if (change != chartLargeMode) {
                 Log.d(TAG, String.format("Chart large mode changed from %s to %s chartWidth = %s xdpi = %s",
                         chartLargeMode, change, chartWidth, xdpi));

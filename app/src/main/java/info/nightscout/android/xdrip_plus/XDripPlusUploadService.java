@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -89,7 +89,7 @@ public class XDripPlusUploadService extends Service {
     private class Upload extends Thread {
         public void run() {
 
-            PowerManager.WakeLock wl = getWakeLock(mContext, TAG, 60000);
+            PowerManager.WakeLock wl = getWakeLock(mContext, TAG, 90000);
 
             storeRealm = Realm.getInstance(UploaderApplication.getStoreConfiguration());
             dataStore = storeRealm.where(DataStore.class).findFirst();
